@@ -116,7 +116,7 @@ public class Props : BasePlugin
         player.Score -= cost;
         Utilities.SetStateChanged(player, "CCSPlayerController", "m_iScore");
 
-        var entity = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_override");
+        var entity = Utilities.CreateEntityByName<CPhysicsPropOverride>("prop_physics_override");
 
         if (entity == null || !entity.IsValid)
         {
@@ -156,10 +156,12 @@ public class Props : BasePlugin
         );
 
         entity.SetModel(model);
-        entity.MassScale = massScale;
-        entity.MaxHealth = 100;
-        entity.TakesDamage = true;
-        entity.Health = 100;
+
+
+        entity.MassScale = 0.1f; // Reduces the mass of the prop
+        entity.InertiaScale = 0.1f; // Adjusts the inertia, making it easier to move
+        entity.Friction = 0.2f; // Lower friction makes it slide more easily
+        entity.Elasticity = 0.5f; // Adjusts how bouncy the prop is when colliding
 
         Server.PrintToChatAll($" {MessagePrefix}{ChatColors.Green}{player.PlayerName}{ChatColors.White} bought a {ChatColors.Red}{name}{ChatColors.White}!");
         entity.DispatchSpawn();
